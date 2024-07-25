@@ -8,15 +8,15 @@ coffeeMaker = CoffeeMaker()
 moneyMachine = MoneyMachine()
 
 while is_on:
-    choice = input("What would you like? (espresso/latte/cappuccino):").lower()
+    options = menu.get_items()
+    choice = input(f"What would you like? ({options}): ").lower()
     if choice == "off":
         is_on = False
     elif choice == "report":
-        print(coffeeMaker.report())
-        print(moneyMachine.report())
+        coffeeMaker.report()
+        moneyMachine.report()
     else:
         drink = menu.find_drink(choice)
         if coffeeMaker.is_resource_sufficient(drink):
-            if moneyMachine.process_coins():
-              coffeeMaker.make_coffee(drink)
-
+            if moneyMachine.make_payment(drink.cost):
+                coffeeMaker.make_coffee(drink)
